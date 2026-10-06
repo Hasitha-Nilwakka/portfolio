@@ -1,0 +1,180 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #090d16;
+  --foreground: #f1f5f9;
+  --card-bg: rgba(15, 23, 42, 0.75);
+  --card-border: rgba(51, 65, 85, 0.5);
+  --accent: #38bdf8;
+  --accent-gradient: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%);
+}
+
+.light {
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --card-bg: rgba(255, 255, 255, 0.92);
+  --card-border: rgba(226, 232, 240, 0.9);
+  --accent: #0284c7;
+  --accent-gradient: linear-gradient(135deg, #0284c7 0%, #4f46e5 50%, #9333ea 100%);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  overflow-x: hidden;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* Glassmorphism helpers */
+.glass-panel {
+  background: var(--card-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--card-border);
+}
+
+.text-gradient {
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ==========================================================================
+   LIGHT MODE CONTRAST & ACCESSIBILITY CALIBRATION
+   ========================================================================== */
+
+html.light {
+  color-scheme: light;
+}
+
+html.light body {
+  background-color: #f8fafc;
+  color: #0f172a;
+}
+
+/* Headings & High-contrast Text */
+html.light .text-slate-100 {
+  color: #0f172a !important;
+}
+
+html.light .text-slate-200 {
+  color: #1e293b !important;
+}
+
+/* Body copy & descriptions */
+html.light .text-slate-300 {
+  color: #334155 !important;
+}
+
+/* Sub-labels & metadata */
+html.light .text-slate-400 {
+  color: #475569 !important;
+}
+
+html.light .text-slate-500 {
+  color: #64748b !important;
+}
+
+/* Section Backgrounds */
+html.light .bg-slate-900\/40,
+html.light .bg-slate-900\/50,
+html.light .bg-slate-900\/60,
+html.light .bg-slate-900\/70,
+html.light .bg-slate-900\/80 {
+  background-color: rgba(241, 245, 249, 0.75) !important;
+}
+
+html.light .bg-slate-900 {
+  background-color: #ffffff !important;
+}
+
+/* Badges, Tags, and Pill Backgrounds */
+html.light .bg-slate-800\/60,
+html.light .bg-slate-800\/50,
+html.light .bg-slate-800\/40,
+html.light .bg-slate-800 {
+  background-color: #f1f5f9 !important;
+  color: #334155 !important;
+}
+
+/* Borders */
+html.light .border-slate-800\/80,
+html.light .border-slate-800\/60,
+html.light .border-slate-800 {
+  border-color: rgba(226, 232, 240, 0.95) !important;
+}
+
+html.light .border-slate-700\/60,
+html.light .border-slate-700 {
+  border-color: rgba(203, 213, 225, 0.9) !important;
+}
+
+/* Hover States in Light Mode */
+html.light .hover\:border-slate-700:hover,
+html.light .hover\:border-slate-800:hover {
+  border-color: rgba(148, 163, 184, 0.85) !important;
+}
+
+html.light .hover\:text-white:hover,
+html.light .hover\:text-slate-100:hover {
+  color: #0284c7 !important;
+}
+
+html.light .hover\:bg-slate-800:hover,
+html.light .hover\:bg-slate-800\/60:hover {
+  background-color: #e2e8f0 !important;
+}
+
+/* Glass Panels in Light Mode */
+html.light .glass-panel {
+  background: rgba(255, 255, 255, 0.92) !important;
+  border-color: rgba(226, 232, 240, 0.95) !important;
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05), 0 2px 6px -1px rgba(15, 23, 42, 0.02) !important;
+}
+
+/* Nav header glass panel in Light Mode */
+html.light header.glass-panel {
+  background: rgba(255, 255, 255, 0.88) !important;
+  border-bottom-color: rgba(226, 232, 240, 0.95) !important;
+}
+
+/* WCAG-Compliant Accent Colors for Light Backgrounds */
+html.light .text-sky-400 {
+  color: #0284c7 !important; /* sky-600 */
+}
+
+html.light .text-indigo-400 {
+  color: #4f46e5 !important; /* indigo-600 */
+}
+
+html.light .text-purple-400 {
+  color: #7e22ce !important; /* purple-700 */
+}
+
+html.light .text-emerald-400 {
+  color: #059669 !important; /* emerald-600 */
+}
+
+html.light .text-amber-400 {
+  color: #d97706 !important; /* amber-600 */
+}
+
+html.light .text-rose-400 {
+  color: #e11d48 !important; /* rose-600 */
+}
+
+/* Timeline rings & tracks */
+html.light .ring-slate-900 {
+  --tw-ring-color: #f8fafc !important;
+}
+
+html.light [class*="before:bg-slate-800"]::before {
+  background-color: #cbd5e1 !important;
+}
