@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     title: "Hasitha Nilwakka | Full-Stack & Systems Engineer",
     description:
       "10+ Years Banking & Operations Leadership meets Modern Full-Stack (React/Next.js/Go) & Cloud AI.",
-    url: "https://resume-radar-hvb3ka7hq-hasitha-nilwakkas-projects.vercel.app/",
+    url: "https://portfolio-rho-steel-99.vercel.app/",
     siteName: "Hasitha Nilwakka Portfolio",
     type: "website",
   },
