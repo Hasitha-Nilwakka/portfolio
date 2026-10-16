@@ -119,6 +119,22 @@ export default function PortfolioPage() {
       ],
     },
     {
+      id: "fraud-detector",
+      title: "FinTech Fraud Guard",
+      badge: "Two-Tier Cascaded AI",
+      badgeColor: "bg-amber-500/20 text-amber-400 border-amber-500/30",
+      description:
+        "Dual-model machine learning fraud detection engine and real-time risk operations console trained on relational banking telemetry from CaixaBank Tech (8.9M transaction records across 2k users and 6.1k cards).",
+      stack: ["Python 3.10", "Scikit-Learn", "Streamlit", "Pandas", "NumPy", "Joblib", "Relational ML"],
+      liveUrl: "https://fraud-detector-two-tier-ai.streamlit.app/",
+      githubUrl: "https://github.com/Hasitha-Nilwakka/fraud-detector",
+      highlights: [
+        "Two-Tier Cascaded Risk Architecture: Sub-10ms Gatekeeper screening + Deep Behavioral Profiling Engine",
+        "Achieved 98.6% fraud recall (stopping 73 of 74 simulated attacks) with cross-border spatial feature engineering",
+        "Production-grade triage console with plain-English decision explainability and Stripe Radar-style reason codes",
+      ],
+    },
+    {
       id: "fluxa-framework",
       title: "Fluxa Framework",
       badge: "Core Web Runtime",
@@ -241,7 +257,7 @@ export default function PortfolioPage() {
             </h1>
 
             <p className="text-lg sm:text-xl text-slate-300 mb-10 leading-relaxed font-normal">
-              Combining <strong>10+ years of international commercial banking, operations, and MBA leadership</strong> with modern <strong>Full-Stack engineering (TypeScript, React 19, Next.js 16, Go)</strong>, production GenAI inference, and cloud deployment literacy.
+              Combining <strong>10+ years of international commercial banking, operations, and MBA leadership</strong> with modern <strong>Full-Stack engineering (TypeScript, React 19, Next.js 16, Go)</strong>, applied machine learning & GenAI pipelines, and cloud deployment literacy.
             </p>
 
             <div className="flex flex-wrap items-center justify-center gap-4">
@@ -325,14 +341,15 @@ export default function PortfolioPage() {
               <div className="w-12 h-12 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center mb-6">
                 <ShieldCheck className="w-6 h-6" />
               </div>
-              <h3 className="text-lg font-bold text-slate-100 mb-3">FinTech & Commercial Leadership</h3>
+              <h3 className="text-lg font-bold text-slate-100 mb-3">FinTech & Applied Machine Learning</h3>
               <p className="text-sm text-slate-300 leading-relaxed">
-                10+ years in international commercial banking and an MBA. Fluency in credit underwriting, loan lifecycle states, AML/KYC verification, CRS compliance, and cross-functional team coordination.
+                10+ years in international commercial banking and an MBA. Fluency in credit underwriting, loan lifecycle states, AML/KYC compliance, and building two-tier ML fraud detection systems trained on CaixaBank relational banking telemetry.
               </p>
               <div className="mt-4 flex flex-wrap gap-2 text-xs font-mono text-slate-400">
+                <span className="px-2 py-1 rounded bg-slate-800/60">Fraud Modeling</span>
+                <span className="px-2 py-1 rounded bg-slate-800/60">Scikit-Learn</span>
                 <span className="px-2 py-1 rounded bg-slate-800/60">Credit Risk</span>
                 <span className="px-2 py-1 rounded bg-slate-800/60">AML/KYC</span>
-                <span className="px-2 py-1 rounded bg-slate-800/60">CRS Reporting</span>
                 <span className="px-2 py-1 rounded bg-slate-800/60">MBA Strategy</span>
               </div>
             </div>
@@ -352,10 +369,12 @@ export default function PortfolioPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {flagshipProjects.map((p) => (
+            {flagshipProjects.map((p, index) => (
               <div
                 key={p.id}
-                className="glass-panel p-8 rounded-2xl flex flex-col justify-between hover:border-slate-700 transition-all relative group"
+                className={`glass-panel p-8 rounded-2xl flex flex-col justify-between hover:border-slate-700 transition-all relative group ${
+                  index === 4 ? "md:col-span-2" : ""
+                }`}
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
@@ -389,7 +408,7 @@ export default function PortfolioPage() {
                   <h3 className="text-xl font-bold text-slate-100 mb-2">{p.title}</h3>
                   <p className="text-sm text-slate-300 mb-5 leading-relaxed">{p.description}</p>
 
-                  <div className="space-y-2 mb-6">
+                  <div className={`space-y-2 mb-6 ${index === 4 ? "md:grid md:grid-cols-3 md:gap-4 md:space-y-0" : ""}`}>
                     {p.highlights.map((highlight, i) => (
                       <div key={i} className="flex items-start space-x-2 text-xs text-slate-300">
                         <CheckCircle2 className="w-4 h-4 text-sky-400 shrink-0 mt-0.5" />
@@ -487,14 +506,15 @@ export default function PortfolioPage() {
             <div className="glass-panel p-6 rounded-xl">
               <div className="flex items-center space-x-2.5 text-purple-400 mb-4 font-semibold text-sm">
                 <Cpu className="w-4 h-4" />
-                <span>AI & LLMOps</span>
+                <span>AI & Machine Learning</span>
               </div>
               <ul className="space-y-2 text-xs text-slate-300 font-mono">
+                <li>• Scikit-Learn & ML Pipelines</li>
+                <li>• Two-Tier Cascaded Risk Models</li>
                 <li>• RunPod Serverless GPU vLLM</li>
                 <li>• Anthropic Claude SDK</li>
                 <li>• Zod 4 Schema Validation</li>
-                <li>• Automated QA & Retry Loops</li>
-                <li>• Alpaca Model Fine-Tuning</li>
+                <li>• Pandas, NumPy & Joblib</li>
               </ul>
             </div>
 
