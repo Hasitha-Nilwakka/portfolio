@@ -19,7 +19,8 @@ import {
   Sun,
   Moon,
   Sparkles,
-  ArrowUpRight,
+  Info,
+  X,
   Gamepad2,
   Terminal,
 } from "lucide-react";
@@ -40,7 +41,19 @@ export default function PortfolioPage() {
   const [isDark, setIsDark] = useState(true);
   const [mounted, setMounted] = useState(false);
   const [isDemosOpen, setIsDemosOpen] = useState(false);
+  const [liveDemoToast, setLiveDemoToast] = useState<{ title: string; githubUrl: string } | null>(null);
   const demosMenuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!liveDemoToast) return;
+    const timer = window.setTimeout(() => setLiveDemoToast(null), 9000);
+    return () => window.clearTimeout(timer);
+  }, [liveDemoToast]);
+
+  const handleLiveDemoClick = (title: string, githubUrl: string) => {
+    setIsDemosOpen(false);
+    setLiveDemoToast({ title, githubUrl });
+  };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -294,7 +307,7 @@ export default function PortfolioPage() {
                         target="_blank"
                         rel="noopener noreferrer"
                         role="menuitem"
-                        onClick={() => setIsDemosOpen(false)}
+                        onClick={() => handleLiveDemoClick(p.title, p.githubUrl)}
                         className="flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800/60 transition-colors group"
                       >
                         <div className="min-w-0 pr-3">
@@ -306,6 +319,9 @@ export default function PortfolioPage() {
                         <ExternalLink className="w-3.5 h-3.5 text-slate-400 group-hover:text-sky-400 shrink-0 transition-colors" />
                       </a>
                     ))}
+                  <div className="mt-1 px-3 py-2 border-t border-slate-800/80 text-[11px] text-slate-400 leading-snug">
+                    Hosted on free/serverless tiers—first request may take ~15–60s to wake.
+                  </div>
                 </div>
               )}
             </div>
@@ -435,11 +451,22 @@ export default function PortfolioPage() {
       {/* PRIMARY SHOWCASE: Flagship Full-Stack & AI Applications */}
       <section id="flagship" className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-12">
+          <div className="mb-10">
             <h2 className="text-xs font-bold tracking-widest text-sky-400 uppercase mb-2">Production Proof-of-Work</h2>
             <p className="text-3xl font-bold text-slate-100">Featured Full-Stack & AI Applications</p>
             <p className="text-sm text-slate-400 mt-2 max-w-2xl">
               Fully developed, interactive web applications featuring end-to-end architectures, client-side parsing, and production AI integration.
+            </p>
+          </div>
+
+          <div className="mb-8 glass-panel rounded-xl px-4 py-3 border border-sky-500/20 flex items-start space-x-3 text-xs text-slate-300">
+            <Info className="w-4 h-4 text-sky-400 shrink-0 mt-0.5" />
+            <p className="leading-relaxed">
+              <strong className="text-slate-100">Serverless Cold-Start Notice:</strong> Live demos run on cost-optimized free &amp; serverless tiers (Vercel, Render, RunPod GPU, Streamlit). First requests may take <strong className="text-slate-100">15–60s</strong> while sleeping containers or GPU workers wake up. If a hosted tier hits a temporary limit, full source code is linked on every card or you can{" "}
+              <a href="#contact" className="text-sky-400 underline underline-offset-2 hover:opacity-80">
+                contact me directly
+              </a>
+              .
             </p>
           </div>
 
@@ -460,6 +487,7 @@ export default function PortfolioPage() {
                           href={p.liveUrl}
                           target="_blank"
                           rel="noopener noreferrer"
+                          onClick={() => handleLiveDemoClick(p.title, p.githubUrl)}
                           className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-xs font-semibold hover:bg-emerald-500/20 transition-all"
                         >
                           <ExternalLink className="w-3.5 h-3.5" />
@@ -828,6 +856,52 @@ export default function PortfolioPage() {
           </div>
         </div>
       </footer>
+
+      {liveDemoToast && (
+        <div
+          role="status"
+          aria-live="polite"
+          className="fixed bottom-5 right-5 z-50 max-w-sm glass-panel rounded-xl p-4 border border-sky-500/30 shadow-2xl"
+        >
+          <div className="flex items-start space-x-3">
+            <Info className="w-4 h-4 text-sky-400 shrink-0 mt-0.5" />
+            <div className="flex-1 min-w-0">
+              <p className="text-xs font-semibold text-slate-100 mb-1">
+                Opening {liveDemoToast.title}
+              </p>
+              <p className="text-xs text-slate-300 leading-relaxed mb-2.5">
+                Hosted on free/serverless tiers (Vercel, Render, RunPod GPU, Streamlit). Cold starts may take 15–60s on first wake.
+              </p>
+              <div className="flex items-center space-x-3 text-[11px] font-medium">
+                <a
+                  href={liveDemoToast.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sky-400 hover:underline"
+                >
+                  View Source
+                </a>
+                <span className="text-slate-500">•</span>
+                <a
+                  href="#contact"
+                  onClick={() => setLiveDemoToast(null)}
+                  className="text-sky-400 hover:underline"
+                >
+                  Contact Me
+                </a>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={() => setLiveDemoToast(null)}
+              aria-label="Dismiss notice"
+              className="text-slate-400 hover:text-slate-100 p-0.5 rounded transition-colors"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
