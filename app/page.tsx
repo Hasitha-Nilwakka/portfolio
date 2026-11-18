@@ -347,13 +347,11 @@ export default function PortfolioPage() {
               </a>
 
               <a
-                href="https://resume-radar-hvb3ka7hq-hasitha-nilwakkas-projects.vercel.app/"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="#contact"
                 className="px-6 py-3.5 rounded-xl glass-panel text-slate-200 font-semibold text-sm hover:bg-slate-800 transition-all flex items-center space-x-2"
               >
-                <span>Launch Resume Radar (Live Demo)</span>
-                <ArrowUpRight className="w-4 h-4 text-sky-400" />
+                <Mail className="w-4 h-4 text-sky-400" />
+                <span>Get in Touch</span>
               </a>
 
               <a
