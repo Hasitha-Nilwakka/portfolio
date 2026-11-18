@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   ExternalLink,
   Mail,
@@ -15,6 +15,7 @@ import {
   BookOpen,
   Briefcase,
   ChevronRight,
+  ChevronDown,
   Sun,
   Moon,
   Sparkles,
@@ -38,6 +39,27 @@ function GithubIcon({ className = "w-4 h-4" }: { className?: string }) {
 export default function PortfolioPage() {
   const [isDark, setIsDark] = useState(true);
   const [mounted, setMounted] = useState(false);
+  const [isDemosOpen, setIsDemosOpen] = useState(false);
+  const demosMenuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (demosMenuRef.current && !demosMenuRef.current.contains(event.target as Node)) {
+        setIsDemosOpen(false);
+      }
+    };
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsDemosOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleEscape);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, []);
 
   useEffect(() => {
     setMounted(true);
@@ -71,6 +93,22 @@ export default function PortfolioPage() {
 
   // Tier 1: Flagship Full-Stack & GenAI Applications
   const flagshipProjects = [
+    {
+      id: "nutrisync",
+      title: "NutriSync",
+      badge: "Agentic AI & Polyglot ML",
+      badgeColor: "bg-teal-500/20 text-teal-400 border-teal-500/30",
+      description:
+        "Privacy-first AI Health & Wellness platform built on a 3-service polyglot architecture (Next.js 16, Go 1.26, Python FastAPI) using a spec-driven AI agentic workflow, QLoRA fine-tuning, and two-tier PII anonymization.",
+      stack: ["Next.js 16", "Go 1.26", "FastAPI", "PostgreSQL 17", "QLoRA / Llama 3.2", "SciSpacy", "Agentic Workflows"],
+      liveUrl: "https://nutrisync-three.vercel.app/",
+      githubUrl: "https://github.com/Hasitha-Nilwakka/nutrisync",
+      highlights: [
+        "Engineered with a full agentic workflow: hierarchical AGENTS.md rules, custom .agents/skills, isolated explorer/security-auditor/test-runner subagents, ADRs, and MCP servers",
+        "3-layer guardrailed AI pipeline (SciSpacy PII scrub -> trend prompt constructor -> Pydantic & clinical term validator) with deterministic clinical fallback",
+        "Custom QLoRA / Apple MLX LoRA fine-tuning pipeline for Llama 3.2 1B (nutrisync-llama) with zero-PII synthetic dataset generation & automated evaluation",
+      ],
+    },
     {
       id: "resume-radar",
       title: "Resume Radar",
@@ -223,15 +261,54 @@ export default function PortfolioPage() {
                 <Sun className="w-5 h-5 text-amber-400" />
               )}
             </button>
-            <a
-              href="https://resume-radar-hvb3ka7hq-hasitha-nilwakkas-projects.vercel.app/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden sm:inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-lg bg-sky-500/10 text-sky-400 border border-sky-500/30 text-xs font-semibold hover:bg-sky-500/20 transition-all"
-            >
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Live Demo</span>
-            </a>
+            <div className="relative" ref={demosMenuRef}>
+              <button
+                type="button"
+                onClick={() => setIsDemosOpen((prev) => !prev)}
+                aria-expanded={isDemosOpen}
+                aria-haspopup="menu"
+                className="inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-lg bg-sky-500/10 text-sky-400 border border-sky-500/30 text-xs font-semibold hover:bg-sky-500/20 transition-all"
+              >
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>Live Demos</span>
+                <ChevronDown
+                  className={`w-3.5 h-3.5 transition-transform duration-200 ${isDemosOpen ? "rotate-180" : ""}`}
+                />
+              </button>
+
+              {isDemosOpen && (
+                <div
+                  role="menu"
+                  aria-label="Deployed Live Projects"
+                  className="absolute right-0 mt-2 w-72 rounded-xl glass-panel border border-slate-700/70 shadow-2xl p-1.5 z-50"
+                >
+                  <div className="px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+                    Deployed Applications
+                  </div>
+                  {flagshipProjects
+                    .filter((p): p is typeof p & { liveUrl: string } => Boolean(p.liveUrl))
+                    .map((p) => (
+                      <a
+                        key={p.id}
+                        href={p.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        role="menuitem"
+                        onClick={() => setIsDemosOpen(false)}
+                        className="flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-800/60 transition-colors group"
+                      >
+                        <div className="min-w-0 pr-3">
+                          <div className="text-xs font-semibold text-slate-100 group-hover:text-sky-400 transition-colors truncate">
+                            {p.title}
+                          </div>
+                          <div className="text-[11px] text-slate-400 truncate">{p.badge}</div>
+                        </div>
+                        <ExternalLink className="w-3.5 h-3.5 text-slate-400 group-hover:text-sky-400 shrink-0 transition-colors" />
+                      </a>
+                    ))}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </header>
@@ -309,14 +386,14 @@ export default function PortfolioPage() {
               <div className="w-12 h-12 rounded-xl bg-sky-500/10 text-sky-400 flex items-center justify-center mb-6">
                 <Code2 className="w-6 h-6" />
               </div>
-              <h3 className="text-lg font-bold text-slate-100 mb-3">Full-Stack & Generative AI</h3>
+              <h3 className="text-lg font-bold text-slate-100 mb-3">Full-Stack, Agentic &amp; Generative AI</h3>
               <p className="text-sm text-slate-300 leading-relaxed">
-                Building type-safe web applications with React 19, Next.js 16, and Go. Implementing high-throughput asynchronous GPU inference pipelines via serverless vLLM and Claude APIs with deterministic self-healing retry validation.
+                Building polyglot systems with React 19, Next.js 16, Go, and Python FastAPI. Leveraging spec-driven AI agentic workflows (subagents, custom skills, ADRs, MCP), QLoRA model fine-tuning, and guardrailed inference pipelines.
               </p>
               <div className="mt-4 flex flex-wrap gap-2 text-xs font-mono text-slate-400">
-                <span className="px-2 py-1 rounded bg-slate-800/60">TypeScript</span>
-                <span className="px-2 py-1 rounded bg-slate-800/60">React 19</span>
-                <span className="px-2 py-1 rounded bg-slate-800/60">Next.js 16</span>
+                <span className="px-2 py-1 rounded bg-slate-800/60">Agentic Workflows</span>
+                <span className="px-2 py-1 rounded bg-slate-800/60">QLoRA / MLX</span>
+                <span className="px-2 py-1 rounded bg-slate-800/60">Next.js 16 + Go</span>
                 <span className="px-2 py-1 rounded bg-slate-800/60">RunPod vLLM</span>
               </div>
             </div>
@@ -369,12 +446,10 @@ export default function PortfolioPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {flagshipProjects.map((p, index) => (
+            {flagshipProjects.map((p) => (
               <div
                 key={p.id}
-                className={`glass-panel p-8 rounded-2xl flex flex-col justify-between hover:border-slate-700 transition-all relative group ${
-                  index === 4 ? "md:col-span-2" : ""
-                }`}
+                className="glass-panel p-8 rounded-2xl flex flex-col justify-between hover:border-slate-700 transition-all relative group"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
@@ -408,7 +483,7 @@ export default function PortfolioPage() {
                   <h3 className="text-xl font-bold text-slate-100 mb-2">{p.title}</h3>
                   <p className="text-sm text-slate-300 mb-5 leading-relaxed">{p.description}</p>
 
-                  <div className={`space-y-2 mb-6 ${index === 4 ? "md:grid md:grid-cols-3 md:gap-4 md:space-y-0" : ""}`}>
+                  <div className="space-y-2 mb-6">
                     {p.highlights.map((highlight, i) => (
                       <div key={i} className="flex items-start space-x-2 text-xs text-slate-300">
                         <CheckCircle2 className="w-4 h-4 text-sky-400 shrink-0 mt-0.5" />
@@ -506,15 +581,15 @@ export default function PortfolioPage() {
             <div className="glass-panel p-6 rounded-xl">
               <div className="flex items-center space-x-2.5 text-purple-400 mb-4 font-semibold text-sm">
                 <Cpu className="w-4 h-4" />
-                <span>AI & Machine Learning</span>
+                <span>Agentic AI &amp; Machine Learning</span>
               </div>
               <ul className="space-y-2 text-xs text-slate-300 font-mono">
-                <li>• Scikit-Learn & ML Pipelines</li>
-                <li>• Two-Tier Cascaded Risk Models</li>
-                <li>• RunPod Serverless GPU vLLM</li>
-                <li>• Anthropic Claude SDK</li>
-                <li>• Zod 4 Schema Validation</li>
-                <li>• Pandas, NumPy & Joblib</li>
+                <li>• Agentic Workflows (Subagents, Skills, MCP)</li>
+                <li>• QLoRA / MLX LoRA Fine-Tuning</li>
+                <li>• Scikit-Learn &amp; Two-Tier Risk Models</li>
+                <li>• SciSpacy PII &amp; Clinical Guardrails</li>
+                <li>• RunPod vLLM &amp; Anthropic Claude SDK</li>
+                <li>• FastAPI, Pydantic v2 &amp; Zod 4</li>
               </ul>
             </div>
 
